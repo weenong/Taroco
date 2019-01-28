@@ -12,7 +12,6 @@
     <modules>
         <module>cloud-admin</module>
         <module>cloud-monitor</module>
-        <module>cloud-registry</module>
         <module>cloud-config</module>
     </modules>
     <artifactId>taroco-cloud</artifactId>

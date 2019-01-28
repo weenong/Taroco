@@ -18,10 +18,10 @@ spring:
 ---
 spring:
   profiles: dev
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:9000/eureka
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://127.0.0.1:8848
 
 ---
 spring:
