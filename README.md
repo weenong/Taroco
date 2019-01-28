@@ -11,7 +11,7 @@
 
 ## 前言
 
-'Taroco' 是一整套的微服务企业级解决方案。是微服务敏捷开发的代表。
+'Taroco' 是一套基于 Spring Cloud 的微服务开发脚手架。整合了 Spring Cloud 的配置中心、注册中心、服务网关，提供了一系列starter组件， 同时提供服务治理、服务监控、auth2权限认证，支持服务降级/熔断、基于标签(x-label)的路由、服务权重,前端采用vue+elementUI+webpack，可以很好的解决转向 Spring Cloud  的一系列问题。
 
 
 ### 近期开发计划
