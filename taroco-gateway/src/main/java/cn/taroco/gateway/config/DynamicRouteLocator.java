@@ -21,6 +21,7 @@ import java.util.Set;
  * @author liuht
  * @date 2018/5/15
  * 动态路由实现
+ * SimpleRouteLocator
  */
 @Slf4j
 public class DynamicRouteLocator extends DiscoveryClientRouteLocator {

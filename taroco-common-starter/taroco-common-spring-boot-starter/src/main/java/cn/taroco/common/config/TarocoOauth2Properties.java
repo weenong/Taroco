@@ -20,12 +20,12 @@ public class TarocoOauth2Properties {
     /**
      * accessTokenValiditySeconds, default: 30 days.
      */
-    private int accessTokenValiditySeconds = 60 * 60 * 24 * 30;
+    private int accessTokenValiditySeconds = 60 * 60 * 12;
 
     /**
      * refreshTokenValiditySeconds, default: 12 hours.
      */
-    private int refreshTokenValiditySeconds = 60 * 60 * 12;
+    private int refreshTokenValiditySeconds = 60 * 60 * 24 * 30;
 
     /**
      * the urls for permitAll.

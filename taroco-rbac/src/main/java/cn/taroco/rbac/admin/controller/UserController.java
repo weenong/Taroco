@@ -13,6 +13,7 @@ import cn.taroco.rbac.admin.service.SysUserService;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,9 @@ public class UserController extends BaseController {
     private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
     @Autowired
     private SysUserService userService;
+
+    @Value("${test.val:200}")
+    private String testVal;
 
     /**
      * 获取当前用户信息（角色、权限）
@@ -146,6 +150,7 @@ public class UserController extends BaseController {
      */
     @GetMapping("/userPage")
     public Page userPage(@RequestParam Map<String, Object> params, UserVO userVO) {
+        System.out.println(testVal);
         return userService.selectWithRolePage(new Query(params), userVO);
     }
 

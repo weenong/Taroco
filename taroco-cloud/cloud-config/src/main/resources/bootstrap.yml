@@ -3,13 +3,15 @@ server:
 spring:
   application:
     name: taroco-config
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/liuht777/Taroco-Config
-          search-paths: config-dev, config-test
-          default-label: master
+  profiles:
+    active: native
+#  cloud:
+#    config:
+#      server:
+#        git:
+#          uri: https://github.com/liuht777/Taroco-Config
+#          search-paths: config-dev, config-test
+#          default-label: master
 
 # eureka配置
 eureka:
@@ -33,3 +35,22 @@ eureka:
         weight: 100
         # 服务actuator的管理port，如果设置了的话，Turbine监控台就获取不到对应服务的hystrix.stream。这里就需要设置，Turbine会读取这个端口。
         management.port: ${management.port:${server.port}}
+
+---
+spring:
+  profiles: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config-server/
+---
+spring:
+  profiles: dev
+cloud:
+  config:
+    server:
+      git:
+        uri: https://github.com/liuht777/Taroco-Config
+        search-paths: config-dev, config-test
+        default-label: master

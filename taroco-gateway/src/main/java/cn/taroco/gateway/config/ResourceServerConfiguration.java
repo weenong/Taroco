@@ -1,6 +1,7 @@
 package cn.taroco.gateway.config;
 
 import cn.taroco.common.config.TarocoOauth2Properties;
+import cn.taroco.gateway.handler.AuthExceptionEntryPoint;
 import cn.taroco.gateway.handler.TarocoAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
@@ -54,6 +55,9 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
     @Autowired
     private TarocoAccessDeniedHandler accessDeniedHandler;
+
+    @Autowired
+    private AuthExceptionEntryPoint authExceptionEntryPoint;
 
     @Autowired
     private ResourceServerProperties resource;
@@ -118,6 +122,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     public void configure(ResourceServerSecurityConfigurer resources) {
         resources.expressionHandler(expressionHandler);
         resources.accessDeniedHandler(accessDeniedHandler);
+        resources.authenticationEntryPoint(authExceptionEntryPoint);
     }
 
     /**

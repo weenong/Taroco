@@ -1,6 +1,14 @@
 server:
   port: 9009
 
+app:
+  id: 1
+
+apollo:
+  meta: http://localhost:8080
+  bootstrap:
+    enabled: true
+
 spring:
   application:
     name: taroco-rbac-service
