@@ -1,0 +1,11 @@
+package $tableInfo.servicePackageName;
+
+import ${tableInfo.modelPackageName}.entity.${tableInfo.className};
+
+import com.baomidou.mybatisplus.extension.service.IService;
+/**
+ * @author $tableInfo.authorName
+ */
+public interface ${tableInfo.className}Service extends IService<${tableInfo.className}> {
+
+}

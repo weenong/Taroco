@@ -38,10 +38,10 @@
         <spring-boot-admin.version>2.0.3</spring-boot-admin.version>
         <springfox.version>2.5.0</springfox.version>
         <httpclient.version>4.5.5</httpclient.version>
-        <mybatis-spring.version>1.3.1</mybatis-spring.version>
+        <mybatis-spring.version>2.0.0</mybatis-spring.version>
         <pagehelper.version>5.0.0</pagehelper.version>
-        <mysql.version>5.1.21</mysql.version>
-        <druid.version>1.0.31</druid.version>
+        <mysql.version>8.0.11</mysql.version>
+        <druid.version>1.1.14</druid.version>
         <fastjson.version>1.2.10</fastjson.version>
         <zxing.version>3.2.0</zxing.version>
         <pinyin4j.version>2.5.1</pinyin4j.version>
@@ -56,13 +56,13 @@
         <swagger.version>2.7.0</swagger.version>
         <kaptcha.version>0.0.9</kaptcha.version>
         <javadoc.version>3.0.0</javadoc.version>
-        <mybatis-plus.version>2.1.9</mybatis-plus.version>
+        <mybatis-plus.version>3.1.0</mybatis-plus.version>
         <jasypt.version>1.18</jasypt.version>
         <ttl.version>2.2.0</ttl.version>
         <hutool.version>3.3.2</hutool.version>
         <jjwt.version>0.9.0</jjwt.version>
         <velocity-engine-core.version>2.0</velocity-engine-core.version>
-        <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
+        <mybatisplus-spring-boot-starter.version>3.1.0</mybatisplus-spring-boot-starter.version>
         <spring-cloud-zuul-ratelimit.version>2.2.2.RELEASE</spring-cloud-zuul-ratelimit.version>
     </properties>
 
@@ -135,7 +135,7 @@
             <!-- mybatis-plus start -->
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatisplus-spring-boot-starter</artifactId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatisplus-spring-boot-starter.version}</version>
             </dependency>
             <!--mybatis-plus-->

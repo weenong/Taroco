@@ -1,10 +1,10 @@
 package cn.taroco.rbac.admin.model.entity;
 
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,7 +29,7 @@ public class SysMenu extends Model<SysMenu> {
     /**
      * 菜单ID
      */
-    @TableId(value = "menu_id",type = IdType.INPUT)
+    @TableId(value = "menu_id",type = IdType.AUTO)
 	private Integer menuId;
     /**
      * 菜单名称

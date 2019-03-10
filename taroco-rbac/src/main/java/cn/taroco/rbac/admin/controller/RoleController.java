@@ -8,8 +8,8 @@ import cn.taroco.rbac.admin.model.dto.RoleDTO;
 import cn.taroco.rbac.admin.model.entity.SysRole;
 import cn.taroco.rbac.admin.service.SysRoleMenuService;
 import cn.taroco.rbac.admin.service.SysRoleService;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +37,7 @@ public class RoleController extends BaseController {
      */
     @GetMapping("/{id}")
     public SysRole role(@PathVariable Integer id) {
-        return sysRoleService.selectById(id);
+        return sysRoleService.getById(id);
     }
 
     /**
@@ -64,7 +64,7 @@ public class RoleController extends BaseController {
 
     @DeleteMapping("/{id}")
     public Response roleDel(@PathVariable Integer id) {
-        SysRole sysRole = sysRoleService.selectById(id);
+        SysRole sysRole = sysRoleService.getById(id);
         sysRole.setDelFlag(CommonConstant.STATUS_DEL);
         return Response.success(sysRoleService.updateById(sysRole));
     }
@@ -88,8 +88,8 @@ public class RoleController extends BaseController {
      * @return 分页对象
      */
     @GetMapping("/rolePage")
-    public Page rolePage(@RequestParam Map<String, Object> params) {
-        return sysRoleService.selectwithDeptPage(new Query<>(params), new EntityWrapper<>());
+    public IPage rolePage(@RequestParam Map<String, Object> params) {
+        return sysRoleService.selectwithDeptPage(new Query<>(params), new QueryWrapper<>());
     }
 
     /**
@@ -101,7 +101,7 @@ public class RoleController extends BaseController {
     public Response roleMenuUpd(@RequestBody Map data) {
         final Integer roleId = Integer.valueOf(data.get("roleId") + "");
         final List<Integer> menuIds = (List<Integer>) data.get("menuIds");
-        SysRole sysRole = sysRoleService.selectById(roleId);
+        SysRole sysRole = sysRoleService.getById(roleId);
         return Response.success(sysRoleMenuService.insertRoleMenus(sysRole.getRoleCode(), roleId, menuIds));
     }
 }

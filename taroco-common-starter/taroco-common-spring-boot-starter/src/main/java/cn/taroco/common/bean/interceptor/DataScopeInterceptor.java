@@ -1,7 +1,7 @@
 package cn.taroco.common.bean.interceptor;
 
-import com.baomidou.mybatisplus.plugins.SqlParserHandler;
-import com.baomidou.mybatisplus.toolkit.PluginUtils;
+import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
+import com.xiaoleilu.hutool.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.executor.statement.StatementHandler;
@@ -25,20 +25,19 @@ import java.util.Properties;
  */
 @Slf4j
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
-public class DataScopeInterceptor extends SqlParserHandler implements Interceptor {
+public class DataScopeInterceptor implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         StatementHandler statementHandler = (StatementHandler) PluginUtils.realTarget(invocation.getTarget());
-        MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
-        this.sqlParser(metaObject);
-        // 先判断是不是SELECT操作
-        MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
+        MetaObject metaStatementHandler = SystemMetaObject.forObject(statementHandler);
+        MappedStatement mappedStatement = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
+
         if (!SqlCommandType.SELECT.equals(mappedStatement.getSqlCommandType())) {
             return invocation.proceed();
         }
 
-        BoundSql boundSql = (BoundSql) metaObject.getValue("delegate.boundSql");
+        BoundSql boundSql = (BoundSql) metaStatementHandler.getValue("delegate.boundSql");
         String originalSql = boundSql.getSql();
         Object parameterObject = boundSql.getParameterObject();
 
@@ -50,14 +49,9 @@ public class DataScopeInterceptor extends SqlParserHandler implements Intercepto
         } else {
             String scopeName = dataScope.getScopeName();
             List<Integer> deptIds = dataScope.getDeptIds();
-            if(StringUtils.isNotBlank(scopeName) && !CollectionUtils.isEmpty(deptIds)){
-                StringBuilder join = new StringBuilder();
-                deptIds.forEach(deptId -> join.append(deptId).append(","));
-                join.deleteCharAt(join.lastIndexOf(","));
-                originalSql = "select * from (" + originalSql + ") temp_data_scope where temp_data_scope." +
-                        scopeName + " in (" + join.toString() + ")";
-                metaObject.setValue("delegate.boundSql.sql", originalSql);
-            }
+            String join = CollectionUtil.join(deptIds, ",");
+            originalSql = "select * from (" + originalSql + ") temp_data_scope where temp_data_scope." + scopeName + " in (" + join + ")";
+            metaStatementHandler.setValue("delegate.boundSql.sql", originalSql);
             return invocation.proceed();
         }
     }

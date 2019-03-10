@@ -24,7 +24,7 @@ CREATE TABLE `sys_dept` (
   `name` varchar(50) DEFAULT NULL COMMENT '部门名称',
   `order_num` int(11) DEFAULT NULL COMMENT '排序',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `update_time` timestamp COMMENT '修改时间',
   `del_flag` char(1) DEFAULT '0' COMMENT '是否删除  -1：已删除  0：正常',
   `parent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`dept_id`)
@@ -71,7 +71,7 @@ CREATE TABLE `sys_dict` (
   `description` varchar(100) NOT NULL COMMENT '描述',
   `sort` decimal(10,0) NOT NULL COMMENT '排序（升序）',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time` timestamp COMMENT '更新时间',
   `remarks` varchar(255) DEFAULT NULL COMMENT '备注信息',
   `del_flag` char(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
   PRIMARY KEY (`id`),
@@ -94,8 +94,8 @@ CREATE TABLE `sys_log` (
   `title` varchar(255) DEFAULT '' COMMENT '日志标题',
   `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
   `create_by` varchar(64) DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` TIMESTAMP COMMENT '更新时间',
   `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作IP地址',
   `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
   `request_uri` varchar(255) DEFAULT NULL COMMENT '请求URI',
@@ -132,7 +132,7 @@ CREATE TABLE `sys_menu` (
   `sort` int(11) DEFAULT '1' COMMENT '排序值',
   `type` char(1) DEFAULT NULL COMMENT '菜单类型 （0菜单 1按钮）',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time` timestamp COMMENT '更新时间',
   `del_flag` char(1) DEFAULT '0' COMMENT '0--正常 1--删除',
   PRIMARY KEY (`menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单权限表';
@@ -225,7 +225,7 @@ CREATE TABLE `sys_role` (
   `role_code` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `role_desc` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `update_time` timestamp ,
   `del_flag` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '删除标识（0-正常,1-删除）',
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_idx1_role_code` (`role_code`) USING BTREE
@@ -345,7 +345,7 @@ CREATE TABLE `sys_user` (
   `label` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `dept_id` int(11) DEFAULT NULL COMMENT '部门ID',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `update_time` timestamp COMMENT '修改时间',
   `del_flag` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '0-正常，1-删除',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_idx1_username` (`username`) USING BTREE,
@@ -386,7 +386,7 @@ CREATE TABLE `sys_zuul_route` (
   `enabled` char(1) DEFAULT '1' COMMENT '是否启用',
   `sensitiveHeaders_list` varchar(255) DEFAULT NULL COMMENT '敏感请求头',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time` timestamp COMMENT '更新时间',
   `del_flag` char(1) DEFAULT '0' COMMENT '删除标识（0-正常,1-删除）',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='动态路由配置表';

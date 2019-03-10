@@ -1,0 +1,42 @@
+package ${tableInfo.modelPackageName}.entity;
+
+import java.util.Date;
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+/**
+ * ${tableInfo.tableComment}
+ *
+ * @author ${tableInfo.authorName}
+ * @date ${datetime}
+ */
+@Data
+@Accessors(chain = true)
+@TableName(value = "${tableInfo.tableName}")
+public class ${tableInfo.className} extends Model<${tableInfo.className}> {
+
+    #if($!tableInfo.pk)
+    @TableId(value = "${tableInfo.pk.columnName}", type = IdType.AUTO)
+    private ${tableInfo.pk.attrType} $!{tableInfo.pk.attrName};
+    #end
+
+    #foreach($column in $tableInfo.columnInfoList)
+    #if($!{column.attrName} != $!{tableInfo.pk.attrName})
+    /**
+     * $!{column.columnComment}
+     */
+    @TableField(value = "$column.columnName",exist = true)
+    private $column.attrType $column.attrName;
+    #end
+    #end
+
+}

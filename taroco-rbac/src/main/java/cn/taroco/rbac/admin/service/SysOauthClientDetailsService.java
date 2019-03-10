@@ -1,7 +1,7 @@
 package cn.taroco.rbac.admin.service;
 
-import com.baomidou.mybatisplus.service.IService;
 import cn.taroco.rbac.admin.model.entity.SysOauthClientDetails;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>

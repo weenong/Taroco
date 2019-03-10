@@ -1,0 +1,25 @@
+package ${tableInfo.modelPackageName}.dto;
+
+
+import lombok.Data;
+import lombok.experimental.Accessors;
+import java.util.*;
+
+/**
+ * ${tableInfo.tableComment}
+ *
+ * @author ${tableInfo.authorName}
+ * @date ${datetime}
+ */
+@Data
+@Accessors(chain = true)
+public class ${tableInfo.className}DTO{
+
+    #foreach($column in $tableInfo.columnInfoList)
+    /**
+     * $!{column.columnComment}
+     */
+    private $column.attrType $column.attrName;
+    #end
+
+}

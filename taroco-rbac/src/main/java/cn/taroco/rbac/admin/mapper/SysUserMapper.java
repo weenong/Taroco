@@ -1,10 +1,10 @@
 package cn.taroco.rbac.admin.mapper;
 
 import cn.taroco.rbac.admin.model.entity.SysUser;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
 import cn.taroco.common.bean.interceptor.DataScope;
 import cn.taroco.common.utils.Query;
 import cn.taroco.common.vo.UserVO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

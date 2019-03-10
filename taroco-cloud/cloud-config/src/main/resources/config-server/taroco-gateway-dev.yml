@@ -32,7 +32,7 @@ zuul:
 
 security:
   validate:
-    code: true
+    code: false
     preview: false
   sessions: stateless
   oauth2:

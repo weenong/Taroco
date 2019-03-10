@@ -1,8 +1,8 @@
 package cn.taroco.rbac.admin.mapper;
 
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
 import cn.taroco.rbac.admin.model.entity.SysOauthClientDetails;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>

@@ -1,0 +1,19 @@
+INSERT INTO sys_menu
+( name, parent_id, icon, component, sort, type,path )  VALUES
+( '$!{tableInfo.className}管理', -1,'adjust','views/$!{tableInfo.lowerClassName}/index', 0, 0, '$!{tableInfo.lowerClassName}' );
+
+INSERT INTO sys_menu
+( name, url,method, parent_id, type )  VALUES
+( '$!{tableInfo.className}查看','test/$!{tableInfo.lowerClassName}/**','GET', null, 1 );
+
+INSERT INTO sys_menu
+( name,permission, url,method, parent_id, type )  VALUES
+( '$!{tableInfo.className}新增','$!{tableInfo.lowerClassName}_add','test/$!{tableInfo.lowerClassName}/*','POST', null, 1 );
+
+INSERT INTO sys_menu
+( name,permission, url,method, parent_id, type )  VALUES
+( '$!{tableInfo.className}修改','$!{tableInfo.lowerClassName}_upd','test/$!{tableInfo.lowerClassName}/**','PUT', null, 1 );
+
+INSERT INTO sys_menu
+( name,permission, url,method, parent_id, type )  VALUES
+( '$!{tableInfo.className}删除','$!{tableInfo.lowerClassName}_del','test/$!{tableInfo.lowerClassName}/*','DELETE', null, 1 );

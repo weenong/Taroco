@@ -1,5 +1,6 @@
 package cn.taroco.rbac.admin.model.dto;
 
+import cn.taroco.rbac.admin.model.entity.SysRole;
 import cn.taroco.rbac.admin.model.entity.SysUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +17,7 @@ public class UserDTO extends SysUser {
     /**
      * 角色ID
      */
-    private List<Integer> role;
+    private List<SysRole> roleList;
 
     private Integer deptId;
 

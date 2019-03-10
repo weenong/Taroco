@@ -1,0 +1,23 @@
+package ${tableInfo.servicePackageName}.impl;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ${tableInfo.daoPackageName}.${tableInfo.className}Mapper;
+import ${tableInfo.modelPackageName}.entity.${tableInfo.className};
+import ${tableInfo.modelPackageName}.dto.${tableInfo.className}DTO;
+import ${tableInfo.servicePackageName}.${tableInfo.className}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.SQLException;
+import java.util.List;
+
+/**
+ * @author $tableInfo.authorName
+ */
+@Service
+public class ${tableInfo.className}ServiceImpl extends ServiceImpl<${tableInfo.className}Mapper, ${tableInfo.className}> implements ${tableInfo.className}Service {
+    @Autowired
+    private ${tableInfo.className}Mapper ${tableInfo.lowerClassName}Mapper;
+
+}

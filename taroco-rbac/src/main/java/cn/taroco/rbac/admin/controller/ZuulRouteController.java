@@ -6,8 +6,8 @@ import cn.taroco.common.utils.Query;
 import cn.taroco.common.web.BaseController;
 import cn.taroco.common.web.Response;
 import cn.taroco.rbac.admin.service.SysZuulRouteService;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +35,7 @@ public class ZuulRouteController extends BaseController {
      */
     @GetMapping("/{id}")
     public SysZuulRoute get(@PathVariable Integer id) {
-        return sysZuulRouteService.selectById(id);
+        return sysZuulRouteService.getById(id);
     }
 
     /**
@@ -45,9 +45,9 @@ public class ZuulRouteController extends BaseController {
      * @return 分页对象
      */
     @GetMapping("/page")
-    public Page page(@RequestParam Map<String, Object> params) {
+    public IPage page(@RequestParam Map<String, Object> params) {
         params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
-        return sysZuulRouteService.selectPage(new Query<>(params), new EntityWrapper<>());
+        return sysZuulRouteService.page(new Query<>(params), new QueryWrapper<>());
     }
 
     /**
@@ -58,7 +58,7 @@ public class ZuulRouteController extends BaseController {
      */
     @PostMapping
     public Response add(@RequestBody SysZuulRoute sysZuulRoute) {
-        return Response.success(sysZuulRouteService.insert(sysZuulRoute));
+        return Response.success(sysZuulRouteService.save(sysZuulRoute));
     }
 
     /**

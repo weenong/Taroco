@@ -1,0 +1,80 @@
+package $tableInfo.controllerPackageName;
+
+import ${tableInfo.modelPackageName}.entity.${tableInfo.className};
+import ${tableInfo.servicePackageName}.${tableInfo.className}Service;
+
+import cn.taroco.common.utils.Query;
+import cn.taroco.common.web.Response;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+/**
+ * @author $tableInfo.authorName
+ */
+@RestController
+@RequestMapping("/${tableInfo.lowerClassName}")
+public class ${tableInfo.className}Controller {
+
+    @Autowired
+    private ${tableInfo.className}Service ${tableInfo.lowerClassName}Service;
+
+    /**
+     * 通过ID查询信息
+     *
+     * @param id ID
+     * @return
+     */
+    @GetMapping("/{id}")
+    public ${tableInfo.className} get(@PathVariable Integer id) {
+        return ${tableInfo.lowerClassName}Service.getById(id);
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param params 分页对象
+     * @return 分页对象
+     */
+    @GetMapping("/page")
+    public IPage dictPage(@RequestParam Map<String, Object> params) {
+        return ${tableInfo.lowerClassName}Service.page(new Query<>(params), new QueryWrapper<>());
+    }
+
+    /**
+     * 添加
+     *
+     * @param ${tableInfo.lowerClassName}
+     * @return success、false
+     */
+    @PostMapping
+    public Response add(@RequestBody ${tableInfo.className} ${tableInfo.lowerClassName}) {
+        return Response.success(${tableInfo.lowerClassName}Service.save(${tableInfo.lowerClassName}));
+    }
+
+    /**
+     * 删除
+     *
+     * @param id   ID
+     * @return R
+     */
+    @DeleteMapping("/{id}")
+    public Response delete(@PathVariable Integer id) {
+        return Response.success(${tableInfo.lowerClassName}Service.removeById(id));
+    }
+
+    /**
+     * 修改
+     *
+     * @param ${tableInfo.lowerClassName}
+     * @return success/false
+     */
+    @PutMapping
+    public Response editDict(@RequestBody ${tableInfo.className} ${tableInfo.lowerClassName}) {
+        return Response.success(${tableInfo.lowerClassName}Service.updateById(${tableInfo.lowerClassName}));
+    }
+}

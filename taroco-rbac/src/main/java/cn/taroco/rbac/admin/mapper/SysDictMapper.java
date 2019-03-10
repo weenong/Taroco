@@ -1,7 +1,7 @@
 package cn.taroco.rbac.admin.mapper;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
 import cn.taroco.rbac.admin.model.entity.SysDict;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>

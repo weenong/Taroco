@@ -17,9 +17,9 @@ import cn.taroco.rbac.admin.service.SysDeptRelationService;
 import cn.taroco.rbac.admin.service.SysMenuService;
 import cn.taroco.rbac.admin.service.SysUserRoleService;
 import cn.taroco.rbac.admin.service.SysUserService;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaoleilu.hutool.util.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -57,7 +57,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public UserInfo findUserInfo(UserVO userVo) {
         SysUser condition = new SysUser();
         condition.setUsername(userVo.getUsername());
-        SysUser sysUser = this.selectOne(new EntityWrapper<>(condition));
+        SysUser sysUser = this.getOne(new QueryWrapper<>(condition));
 
         UserInfo userInfo = new UserInfo();
         userInfo.setSysUser(sysUser);
@@ -172,7 +172,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         SysUser params = new SysUser();
         params.setPhone(mobile);
-        List<SysUser> userList = this.selectList(new EntityWrapper<>(params));
+        List<SysUser> userList = this.list(new QueryWrapper<SysUser>(params));
 
         if (CollectionUtils.isEmpty(userList)) {
             log.error("根据用户手机号{}查询用户为空", mobile);
@@ -196,7 +196,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public Boolean deleteUserById(SysUser sysUser) {
         sysUserRoleService.deleteByUserId(sysUser.getUserId());
-        this.deleteById(sysUser.getUserId());
+        this.removeById(sysUser.getUserId());
         return Boolean.TRUE;
     }
 
@@ -228,11 +228,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         SysUserRole condition = new SysUserRole();
         condition.setUserId(userDto.getUserId());
-        sysUserRoleService.delete(new EntityWrapper<>(condition));
-        userDto.getRole().forEach(roleId -> {
+        sysUserRoleService.remove(new QueryWrapper<>(condition));
+        userDto.getRoleList().forEach(role -> {
             SysUserRole userRole = new SysUserRole();
             userRole.setUserId(sysUser.getUserId());
-            userRole.setRoleId(roleId);
+            userRole.setRoleId(role.getRoleId());
             userRole.insert();
         });
         return Boolean.TRUE;
@@ -251,7 +251,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         //获取当前部门的子部门
         SysDeptRelation deptRelation = new SysDeptRelation();
         deptRelation.setAncestor(deptId);
-        List<SysDeptRelation> deptRelationList = sysDeptRelationService.selectList(new EntityWrapper<>(deptRelation));
+        List<SysDeptRelation> deptRelationList = sysDeptRelationService.list(new QueryWrapper<>(deptRelation));
         List<Integer> deptIds = new ArrayList<>();
         for (SysDeptRelation sysDeptRelation : deptRelationList) {
             deptIds.add(sysDeptRelation.getDescendant());

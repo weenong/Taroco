@@ -2,14 +2,14 @@ package cn.taroco.rbac.admin.service.impl;
 
 import cn.taroco.rbac.admin.mapper.SysDeptMapper;
 import cn.taroco.rbac.admin.model.entity.SysDeptRelation;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import cn.taroco.rbac.admin.common.util.TreeUtil;
 import cn.taroco.rbac.admin.mapper.SysDeptRelationMapper;
 import cn.taroco.rbac.admin.model.dto.DeptTree;
 import cn.taroco.rbac.admin.model.entity.SysDept;
 import cn.taroco.rbac.admin.service.SysDeptService;
 import cn.taroco.common.constants.CommonConstant;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +43,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     public Boolean insertDept(SysDept dept) {
         SysDept sysDept = new SysDept();
         BeanUtils.copyProperties(dept, sysDept);
-        this.insert(sysDept);
+        this.save(sysDept);
         this.insertDeptRelation(sysDept);
         return Boolean.TRUE;
     }
@@ -56,7 +56,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         //增加部门关系表
         SysDeptRelation deptRelation = new SysDeptRelation();
         deptRelation.setDescendant(sysDept.getParentId());
-        List<SysDeptRelation> deptRelationList = sysDeptRelationMapper.selectList(new EntityWrapper<>(deptRelation));
+        List<SysDeptRelation> deptRelationList = sysDeptRelationMapper.selectList(new QueryWrapper<>(deptRelation));
         for (SysDeptRelation sysDeptRelation : deptRelationList) {
             sysDeptRelation.setDescendant(sysDept.getDeptId());
             sysDeptRelationMapper.insert(sysDeptRelation);
@@ -80,7 +80,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         sysDept.setDeptId(id);
         sysDept.setUpdateTime(new Date());
         sysDept.setDelFlag(CommonConstant.STATUS_DEL);
-        this.deleteById(sysDept);
+        this.removeById(sysDept);
         sysDeptMapper.deleteDeptRealtion(id);
         return Boolean.TRUE;
     }
@@ -109,8 +109,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @return 树
      */
     @Override
-    public List<DeptTree> selectListTree(EntityWrapper<SysDept> sysDeptEntityWrapper) {
-        return getDeptTree(this.selectList(sysDeptEntityWrapper), 0);
+    public List<DeptTree> selectListTree(QueryWrapper<SysDept> sysDeptEntityWrapper) {
+        return getDeptTree(this.list(sysDeptEntityWrapper), 0);
     }
 
     /**

@@ -7,8 +7,9 @@ import cn.taroco.common.web.BaseController;
 import cn.taroco.common.web.Response;
 import cn.taroco.rbac.admin.model.entity.SysDict;
 import cn.taroco.rbac.admin.service.SysDictService;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,7 @@ public class DictController extends BaseController {
      */
     @GetMapping("/{id}")
     public SysDict dict(@PathVariable Integer id) {
-        return sysDictService.selectById(id);
+        return sysDictService.getById(id);
     }
 
     /**
@@ -47,9 +48,9 @@ public class DictController extends BaseController {
      * @return 分页对象
      */
     @GetMapping("/dictPage")
-    public Page dictPage(@RequestParam Map<String, Object> params) {
+    public IPage dictPage(@RequestParam Map<String, Object> params) {
         params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
-        return sysDictService.selectPage(new Query<>(params), new EntityWrapper<>());
+        return sysDictService.page(new Query<>(params));
     }
 
     /**
@@ -63,7 +64,7 @@ public class DictController extends BaseController {
         SysDict condition = new SysDict();
         condition.setDelFlag(CommonConstant.STATUS_NORMAL);
         condition.setType(type);
-        return sysDictService.selectList(new EntityWrapper<>(condition));
+        return sysDictService.list(new QueryWrapper<>(condition));
     }
 
     /**
@@ -74,7 +75,7 @@ public class DictController extends BaseController {
      */
     @PostMapping
     public Response dict(@RequestBody SysDict sysDict) {
-        return Response.success(sysDictService.insert(sysDict));
+        return Response.success(sysDictService.save(sysDict));
     }
 
     /**
@@ -86,7 +87,7 @@ public class DictController extends BaseController {
      */
     @DeleteMapping("/{id}/{type}")
     public Response deleteDict(@PathVariable Integer id, @PathVariable String type) {
-        return Response.success(sysDictService.deleteById(id));
+        return Response.success(sysDictService.removeById(id));
     }
 
     /**

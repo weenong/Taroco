@@ -7,9 +7,10 @@ import cn.taroco.rbac.admin.model.dto.RoleDTO;
 import cn.taroco.rbac.admin.model.entity.SysRole;
 import cn.taroco.rbac.admin.model.entity.SysRoleDept;
 import cn.taroco.rbac.admin.service.SysRoleService;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @return page
      */
     @Override
-    public Page selectwithDeptPage(Query<Object> query, EntityWrapper<Object> wrapper) {
+    public Page selectwithDeptPage(Query<Object> query, QueryWrapper<Object> wrapper) {
         query.setRecords(sysRoleMapper.selectRolePage(query, query.getCondition()));
         return query;
     }
@@ -75,7 +76,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         //删除原有的角色部门关系
         SysRoleDept condition = new SysRoleDept();
         condition.setRoleId(roleDto.getRoleId());
-        sysRoleDeptMapper.delete(new EntityWrapper<>(condition));
+        sysRoleDeptMapper.delete(new QueryWrapper<>(condition));
 
         //更新角色信息
         SysRole sysRole = new SysRole();

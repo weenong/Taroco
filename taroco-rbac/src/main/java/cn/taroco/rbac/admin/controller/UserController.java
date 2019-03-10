@@ -10,7 +10,7 @@ import cn.taroco.rbac.admin.model.dto.UserDTO;
 import cn.taroco.rbac.admin.model.entity.SysUser;
 import cn.taroco.rbac.admin.model.entity.SysUserRole;
 import cn.taroco.rbac.admin.service.SysUserService;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,9 +30,6 @@ public class UserController extends BaseController {
     private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
     @Autowired
     private SysUserService userService;
-
-    @Value("${test.val:200}")
-    private String testVal;
 
     /**
      * 获取当前用户信息（角色、权限）
@@ -66,7 +63,7 @@ public class UserController extends BaseController {
      */
     @DeleteMapping("/{id}")
     public Response userDel(@PathVariable Integer id) {
-        SysUser sysUser = userService.selectById(id);
+        SysUser sysUser = userService.getById(id);
         if (CommonConstant.ADMIN_USER_NAME.equals(sysUser.getUsername())) {
             return Response.failure("不允许删除超级管理员");
         }
@@ -85,12 +82,12 @@ public class UserController extends BaseController {
         BeanUtils.copyProperties(userDto, sysUser);
         sysUser.setDelFlag(CommonConstant.STATUS_NORMAL);
         sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
-        userService.insert(sysUser);
+        userService.save(sysUser);
 
-        userDto.getRole().forEach(roleId -> {
+        userDto.getRoleList().forEach(role -> {
             SysUserRole userRole = new SysUserRole();
             userRole.setUserId(sysUser.getUserId());
-            userRole.setRoleId(roleId);
+            userRole.setRoleId(role.getRoleId());
             userRole.insert();
         });
         return Response.success(Boolean.TRUE);
@@ -104,7 +101,7 @@ public class UserController extends BaseController {
      */
     @PutMapping
     public Response userUpdate(@RequestBody UserDTO userDto) {
-        SysUser user = userService.selectById(userDto.getUserId());
+        SysUser user = userService.getById(userDto.getUserId());
         return Response.success(userService.updateUser(userDto, user.getUsername()));
     }
 
@@ -150,7 +147,6 @@ public class UserController extends BaseController {
      */
     @GetMapping("/userPage")
     public Page userPage(@RequestParam Map<String, Object> params, UserVO userVO) {
-        System.out.println(testVal);
         return userService.selectWithRolePage(new Query(params), userVO);
     }
 

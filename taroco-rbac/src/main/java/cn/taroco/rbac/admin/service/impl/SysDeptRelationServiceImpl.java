@@ -2,8 +2,8 @@ package cn.taroco.rbac.admin.service.impl;
 
 import cn.taroco.rbac.admin.model.entity.SysDeptRelation;
 import cn.taroco.rbac.admin.service.SysDeptRelationService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import cn.taroco.rbac.admin.mapper.SysDeptRelationMapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

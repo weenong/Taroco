@@ -1,0 +1,12 @@
+package $tableInfo.daoPackageName;
+
+import ${tableInfo.modelPackageName}.entity.${tableInfo.className};
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+/**
+ * @author $tableInfo.authorName
+ */
+public interface ${tableInfo.className}Mapper extends BaseMapper<${tableInfo.className}> {
+
+}

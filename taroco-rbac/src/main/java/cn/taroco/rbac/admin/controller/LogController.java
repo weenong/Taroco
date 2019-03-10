@@ -8,8 +8,8 @@ import cn.taroco.common.utils.Query;
 import cn.taroco.common.web.BaseController;
 import cn.taroco.common.web.Response;
 import cn.taroco.rbac.admin.service.SysLogService;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -38,9 +38,9 @@ public class LogController extends BaseController {
      * @return 分页对象
      */
     @GetMapping("/logPage")
-    public Page logPage(@RequestParam Map<String, Object> params) {
+    public IPage logPage(@RequestParam Map<String, Object> params) {
         params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
-        return sysLogService.selectPage(new Query<>(params), new EntityWrapper<>());
+        return sysLogService.page(new Query<>(params), new QueryWrapper<>());
     }
 
     /**
@@ -65,6 +65,6 @@ public class LogController extends BaseController {
         if (result.hasErrors()) {
             throw new ClientException(result.getAllErrors().get(0).getDefaultMessage());
         }
-        sysLogService.insert(log);
+        sysLogService.save(log);
     }
 }

@@ -1,8 +1,8 @@
 package cn.taroco.rbac.admin.mapper;
 
 import cn.taroco.rbac.admin.model.entity.SysMenu;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
 import cn.taroco.common.vo.MenuVO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

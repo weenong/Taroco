@@ -19,6 +19,8 @@ services:
       context: ./
       dockerfile: Dockerfile-config
     restart: always
+    ports:
+      - 8888:8888
     environment:
       - EUREKA_SERVER_HOST=taroco-registry
     depends_on:

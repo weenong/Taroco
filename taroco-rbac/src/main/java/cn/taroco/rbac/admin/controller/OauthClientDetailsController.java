@@ -5,8 +5,9 @@ import cn.taroco.common.web.BaseController;
 import cn.taroco.common.web.Response;
 import cn.taroco.rbac.admin.model.entity.SysOauthClientDetails;
 import cn.taroco.rbac.admin.service.SysOauthClientDetailsService;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
@@ -39,7 +40,7 @@ public class OauthClientDetailsController extends BaseController {
      */
     @GetMapping("/{id}")
     public SysOauthClientDetails get(@PathVariable Integer id) {
-        return sysOauthClientDetailsService.selectById(id);
+        return sysOauthClientDetailsService.getById(id);
     }
 
 
@@ -50,8 +51,8 @@ public class OauthClientDetailsController extends BaseController {
      * @return 分页对象
      */
     @GetMapping("/page")
-    public Page page(@RequestParam Map<String, Object> params) {
-        return sysOauthClientDetailsService.selectPage(new Query<>(params), new EntityWrapper<>());
+    public IPage page(@RequestParam Map<String, Object> params) {
+        return sysOauthClientDetailsService.page(new Query<>(params), new QueryWrapper<>());
     }
 
     /**
@@ -67,7 +68,7 @@ public class OauthClientDetailsController extends BaseController {
         }
         final String secret = encoder.encode(client.getClientSecret());
         client.setClientSecret(secret);
-        return Response.success(sysOauthClientDetailsService.insert(client));
+        return Response.success(sysOauthClientDetailsService.save(client));
     }
 
     /**
@@ -80,7 +81,7 @@ public class OauthClientDetailsController extends BaseController {
     public Response delete(@PathVariable String id) {
         SysOauthClientDetails sysOauthClientDetails = new SysOauthClientDetails();
         sysOauthClientDetails.setClientId(id);
-        return Response.success(sysOauthClientDetailsService.deleteById(sysOauthClientDetails));
+        return Response.success(sysOauthClientDetailsService.removeById(sysOauthClientDetails));
     }
 
     /**
@@ -92,7 +93,7 @@ public class OauthClientDetailsController extends BaseController {
     @PutMapping
     public Response edit(@RequestBody SysOauthClientDetails client) {
         final String pass = client.getClientSecret();
-        final SysOauthClientDetails details = sysOauthClientDetailsService.selectById(client.getClientId());
+        final SysOauthClientDetails details = sysOauthClientDetailsService.getById(client.getClientId());
         if (encoder.matches(pass, details.getClientSecret())) {
             client.setClientSecret(encoder.encode(pass));
         }

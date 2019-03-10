@@ -5,7 +5,7 @@ import cn.taroco.common.entity.SysZuulRoute;
 import cn.taroco.common.redis.template.TarocoRedisRepository;
 import cn.taroco.common.utils.JsonUtils;
 import cn.taroco.rbac.admin.service.SysZuulRouteService;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -36,14 +36,20 @@ public class RouteConfigInitListener implements ApplicationListener<ApplicationS
      */
     @Override
     public void onApplicationEvent(ApplicationStartedEvent event) {
-        log.info("开始初始化路由配置数据");
-        EntityWrapper<SysZuulRoute> wrapper = new EntityWrapper<>();
-        wrapper.eq(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
-        List<SysZuulRoute> routeList = sysZuulRouteService.selectList(wrapper);
-        if (!CollectionUtils.isEmpty(routeList)) {
-            redisRepository.set(CommonConstant.ROUTE_KEY, JsonUtils.toJsonString(routeList));
-            log.info("更新Redis中路由配置数据：{}条", routeList.size());
+        try {
+            log.info("开始初始化路由配置数据");
+            QueryWrapper<SysZuulRoute> wrapper = new QueryWrapper<>();
+            wrapper.eq(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
+            List<SysZuulRoute> routeList = sysZuulRouteService.list(wrapper);
+            if (!CollectionUtils.isEmpty(routeList)) {
+                redisRepository.set(CommonConstant.ROUTE_KEY, JsonUtils.toJsonString(routeList));
+                log.info("更新Redis中路由配置数据：{}条", routeList.size());
+            }
+            log.info("初始化路由配置数据完毕");
+        }catch (Exception ex){
+            log.error(ex.getMessage());
+            ex.printStackTrace();
+            throw ex;
         }
-        log.info("初始化路由配置数据完毕");
     }
 }
