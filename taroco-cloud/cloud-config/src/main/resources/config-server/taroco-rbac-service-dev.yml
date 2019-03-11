@@ -56,9 +56,9 @@ taroco:
 
 gencode:
   jdbc:
-    url: jdbc:mysql://39.98.53.99:3306/taroco-oauth2?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    url: ${base.mysql.url}/taroco-oauth2?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
     name: root
-    password: 123.com
+    password: insurance2018
   source:
     basePackageName: com.lumiing.panda
     modelPackageName: model
