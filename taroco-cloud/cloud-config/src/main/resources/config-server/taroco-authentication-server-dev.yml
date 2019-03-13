@@ -5,7 +5,7 @@ spring:
   datasource:
     url: ${base.mysql.url}/taroco-oauth2?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
     username: root
-    password: insurance2018
+    password: 123.com
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       minimum-idle: 5

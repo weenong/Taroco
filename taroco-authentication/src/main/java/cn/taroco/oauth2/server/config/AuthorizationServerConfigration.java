@@ -91,6 +91,7 @@ public class AuthorizationServerConfigration extends AuthorizationServerConfigur
                 user = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
             }
             additionalInfo.put("userId", user.getUserId());
+            additionalInfo.put("userName",user.getUsername());
             additionalInfo.put(CommonConstant.HEADER_LABEL, user.getLabel());
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
             return accessToken;

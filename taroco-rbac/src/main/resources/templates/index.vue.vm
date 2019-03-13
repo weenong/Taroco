@@ -125,23 +125,22 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['permissions'])
   },
   filters: {
   },
   created () {
     this.getList()
-    this.$!{tableInfo.lowerClassName}_add = this.permissions['$!{tableInfo.lowerClassName}_add']
-    this.$!{tableInfo.lowerClassName}_upd = this.permissions['$!{tableInfo.lowerClassName}_upd']
-    this.$!{tableInfo.lowerClassName}_del = this.permissions['$!{tableInfo.lowerClassName}_del']
+    this.$!{tableInfo.lowerClassName}_add = this.hasFunctions(['$!{tableInfo.lowerClassName}_add'])
+    this.$!{tableInfo.lowerClassName}_upd = this.hasFunctions['$!{tableInfo.lowerClassName}_upd'])
+    this.$!{tableInfo.lowerClassName}_del = this.hasFunctions['$!{tableInfo.lowerClassName}_del'])
   },
   methods: {
     getList () {
       this.listLoading = true
       this.listQuery.isAsc = false
       fetchList(this.listQuery).then(response => {
-        this.list = response.data.records
-        this.total = response.data.total
+        this.list = response.records
+        this.total = response.total
         this.listLoading = false
       })
     },
@@ -164,7 +163,7 @@ export default {
     },
     handleUpdate (row) {
       getObj(row.$!{tableInfo.pk.attrName}).then(response => {
-        this.form = response.data
+        this.form = response
         this.dialogFormVisible = true
         this.dialogStatus = 'update'
       })

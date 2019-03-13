@@ -59,7 +59,7 @@ public class AuthenticationController {
      */
     @PostMapping("/removeToken")
     @CacheEvict(value = SecurityConstants.TOKEN_USER_DETAIL, key = "#accesstoken")
-    public Response removeToken(String accesstoken) {
+    public Response removeToken( String accesstoken) {
         return Response.success(consumerTokenServices.revokeToken(accesstoken));
     }
 }

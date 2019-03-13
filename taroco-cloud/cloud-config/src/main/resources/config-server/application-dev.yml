@@ -5,7 +5,7 @@ base:
   auth:
     server: http://localhost:9001
   mysql:
-    url: jdbc:mysql://118.190.150.77:3306
+    url: jdbc:mysql://39.98.53.99:3306
   redis:
     host: ngrok.ruiysoft.com
     port: 6379

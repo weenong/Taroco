@@ -50,19 +50,6 @@ taroco:
       name: liuht
       url: https://github.com/liuht777
       email: liuht777@qq.com
-    base-package: cn.taroco.rbac.admin.controller
+    base-package: cn.taroco.insurance
     base-path: /**
     exclude-path: /error
-
-gencode:
-  jdbc:
-    url: ${base.mysql.url}/taroco-oauth2?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
-    name: root
-    password: 123.com
-  source:
-    basePackageName: com.lumiing.panda
-    modelPackageName: model
-    controllerPackageName: controller
-    servicePackageName: service
-    daoPackageName: mapper
-    authorName: lumiing

@@ -14,11 +14,11 @@ zuul:
   ignored-services: '*'
   # 需要聚合的swagger服务
   swagger:
-    serviceIds: taroco-rbac-service
+    serviceIds: taroco-rbac-service,taroco-product-service
   # 限流配置
   ratelimit:
     key-prefix: taroco-gateway-ratelimit
-    enabled: true
+    enabled: false
     repository: REDIS
     behind-proxy: true
     # 给所有service的默认配置
