@@ -1,26 +1,21 @@
 package cn.taroco.rbac.admin.service.impl;
 
 import cn.taroco.rbac.admin.common.util.GenUtil;
+import cn.taroco.rbac.admin.model.dto.DbColumnInfo;
 import cn.taroco.rbac.admin.model.dto.DbTable;
-import cn.taroco.rbac.admin.model.dto.DbTableColumn;
 import cn.taroco.rbac.admin.model.dto.GenCodeConfigDTO;
 import cn.taroco.rbac.admin.service.GenCodeService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.dbutils.BasicRowProcessor;
 import org.apache.commons.dbutils.DbUtils;
-import org.apache.commons.dbutils.GenerousBeanProcessor;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -71,23 +66,22 @@ public class GenCodeServiceImpl implements GenCodeService{
         QueryRunner queryRunner = new QueryRunner();
         try{
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//            FileOutputStream outputStream = new FileOutputStream("test.zip");
             ZipOutputStream zip = new ZipOutputStream(outputStream);
-            for (DbTable table : configDTO.getTables()) {
-                //查询表信息
-                String tableSql = "select table_name tableName, engine, table_comment tableComment," +
-                        " create_time createTime from information_schema.tables " +
-                        " where table_schema = (select database()) " +
-                        " and table_name='"+table.getTableName()+"'";
-                DbTable t = queryRunner.query(conn,tableSql,new BeanHandler<>(DbTable.class));
-                //查询列信息
-                String columnSql = "select column_name columnName, data_type dataType, column_comment columnComment," +
-                        "column_key columnKey,extra from information_schema.columns " +
-                        "where table_name = '"+table.getTableName()+"' and table_schema = (select database())";
-                List<DbTableColumn> columns = queryRunner.query(conn,columnSql,new BeanListHandler<>(DbTableColumn.class));
-                //生成代码
-                GenUtil.generatorCode(configDTO,t, columns, zip);
-            }
+            DbTable table = configDTO.getTable();
+            //查询表信息
+            String tableSql = "select table_name tableName, engine, table_comment tableComment," +
+                    " create_time createTime from information_schema.tables " +
+                    " where table_schema = (select database()) " +
+                    " and table_name='"+table.getTableName()+"'";
+            DbTable t = queryRunner.query(conn,tableSql,new BeanHandler<>(DbTable.class));
+//            //查询列信息
+//            String columnSql = "select column_name columnName, data_type dataType, column_comment columnComment," +
+//                    "column_key columnKey,extra from information_schema.columns " +
+//                    "where table_name = '"+table.getTableName()+"' and table_schema = (select database())";
+//            List<DbTableColumn> columns = queryRunner.query(conn,columnSql,new BeanListHandler<>(DbTableColumn.class));
+
+            //生成代码
+            GenUtil.generatorCode(configDTO,t, zip);
             IOUtils.closeQuietly(zip);
             return outputStream.toByteArray();
 
@@ -116,4 +110,22 @@ public class GenCodeServiceImpl implements GenCodeService{
         return conn;
     }
 
+    @Override
+    public List<DbColumnInfo> columnList(String tableName) throws Exception {
+        Connection conn = this.getConnection();
+        QueryRunner queryRunner = new QueryRunner();
+        try {
+            String columnSql = "select column_name columnName, data_type dataType, column_comment columnComment," +
+                    "column_key columnKey,extra from information_schema.columns " +
+                    "where table_name = '" + tableName + "' and table_schema = (select database())";
+            List<DbColumnInfo> columns = queryRunner.query(conn, columnSql, new BeanListHandler<>(DbColumnInfo.class));
+            return columns;
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw ex;
+        }finally {
+            DbUtils.closeQuietly(conn);
+
+        }
+    }
 }

@@ -47,7 +47,7 @@ public class ZuulRouteController extends BaseController {
     @GetMapping("/page")
     public IPage page(@RequestParam Map<String, Object> params) {
         params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
-        return sysZuulRouteService.page(new Query<>(params), new QueryWrapper<>());
+        return sysZuulRouteService.page(new Query<>(params,SysZuulRoute.class), new QueryWrapper<>());
     }
 
     /**

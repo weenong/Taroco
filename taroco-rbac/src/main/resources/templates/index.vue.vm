@@ -34,7 +34,7 @@
       <el-table-column align="center" label="操作" width="200">
         <template slot-scope="scope">
           <el-button v-if="$!{tableInfo.lowerClassName}_upd" size="mini" type="primary" @click="handleUpdate(scope.row)" icon="el-icon-edit"></el-button>
-          <el-button v-if="$!{tableInfo.lowerClassName}r_del" size="mini" type="danger" @click="deletes(scope.row)" icon="el-icon-delete"></el-button>
+          <el-button v-if="$!{tableInfo.lowerClassName}_del" size="mini" type="danger" @click="deletes(scope.row)" icon="el-icon-delete"></el-button>
         </template>
       </el-table-column>
 
@@ -131,8 +131,8 @@ export default {
   created () {
     this.getList()
     this.$!{tableInfo.lowerClassName}_add = this.hasFunctions(['$!{tableInfo.lowerClassName}_add'])
-    this.$!{tableInfo.lowerClassName}_upd = this.hasFunctions['$!{tableInfo.lowerClassName}_upd'])
-    this.$!{tableInfo.lowerClassName}_del = this.hasFunctions['$!{tableInfo.lowerClassName}_del'])
+    this.$!{tableInfo.lowerClassName}_upd = this.hasFunctions(['$!{tableInfo.lowerClassName}_upd'])
+    this.$!{tableInfo.lowerClassName}_del = this.hasFunctions(['$!{tableInfo.lowerClassName}_del'])
   },
   methods: {
     getList () {

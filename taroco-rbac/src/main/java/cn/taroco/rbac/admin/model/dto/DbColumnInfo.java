@@ -20,6 +20,13 @@ public class DbColumnInfo {
     private String columnComment;
 
     /**
+     * 字段key类型
+     */
+    private String columnKey;
+
+    private String extra;
+
+    /**
      * 属性类型
      */
     private String attrType;
@@ -33,4 +40,6 @@ public class DbColumnInfo {
      * 首字符大写的属性名
      */
     private String upAttrName;
+
+    private String[] casTable;
 }

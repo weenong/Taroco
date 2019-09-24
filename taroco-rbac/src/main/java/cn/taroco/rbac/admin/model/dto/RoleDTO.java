@@ -1,8 +1,11 @@
 package cn.taroco.rbac.admin.model.dto;
 
+import cn.taroco.rbac.admin.model.entity.SysDept;
 import cn.taroco.rbac.admin.model.entity.SysRole;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * @author liuht
@@ -12,13 +15,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class RoleDTO extends SysRole {
-    /**
-     * 角色部门Id
-     */
-    private Integer roleDeptId;
 
-    /**
-     * 部门名称
-     */
-    private String deptName;
+    private List<SysDept> deptList;
 }

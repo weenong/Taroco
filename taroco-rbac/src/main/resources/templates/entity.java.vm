@@ -34,7 +34,11 @@ public class ${tableInfo.className} extends Model<${tableInfo.className}> {
     /**
      * $!{column.columnComment}
      */
-    @TableField(value = "$column.columnName",exist = true)
+    #if(!$column.columnName)
+    @TableField(exist = false)
+    #else
+    @TableField(value = "$column.columnName",exist = true #if($column.attrName == "createTime"),fill = FieldFill.INSERT #end #if($column.attrName == "updateTime"),fill = FieldFill.INSERT_UPDATE #end)
+    #end
     private $column.attrType $column.attrName;
     #end
     #end

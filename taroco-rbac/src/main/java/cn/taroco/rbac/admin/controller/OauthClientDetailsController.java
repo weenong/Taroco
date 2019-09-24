@@ -52,7 +52,7 @@ public class OauthClientDetailsController extends BaseController {
      */
     @GetMapping("/page")
     public IPage page(@RequestParam Map<String, Object> params) {
-        return sysOauthClientDetailsService.page(new Query<>(params), new QueryWrapper<>());
+        return sysOauthClientDetailsService.page(new Query<>(params,SysOauthClientDetails.class), new QueryWrapper<>());
     }
 
     /**

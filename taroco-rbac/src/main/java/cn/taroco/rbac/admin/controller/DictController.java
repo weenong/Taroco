@@ -50,7 +50,7 @@ public class DictController extends BaseController {
     @GetMapping("/dictPage")
     public IPage dictPage(@RequestParam Map<String, Object> params) {
         params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
-        return sysDictService.page(new Query<>(params));
+        return sysDictService.page(new Query<>(params,SysDict.class));
     }
 
     /**

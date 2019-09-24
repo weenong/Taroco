@@ -40,7 +40,7 @@ public class LogController extends BaseController {
     @GetMapping("/logPage")
     public IPage logPage(@RequestParam Map<String, Object> params) {
         params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
-        return sysLogService.page(new Query<>(params), new QueryWrapper<>());
+        return sysLogService.page(new Query<>(params,SysLog.class), new QueryWrapper<>());
     }
 
     /**

@@ -89,7 +89,7 @@ public class RoleController extends BaseController {
      */
     @GetMapping("/rolePage")
     public IPage rolePage(@RequestParam Map<String, Object> params) {
-        return sysRoleService.selectwithDeptPage(new Query<>(params), new QueryWrapper<>());
+        return sysRoleService.selectwithDeptPage(new Query(params,SysRole.class), new QueryWrapper<>());
     }
 
     /**

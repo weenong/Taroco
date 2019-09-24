@@ -2,6 +2,7 @@ package cn.taroco.rbac.admin.controller;
 
 import cn.taroco.common.web.BaseController;
 import cn.taroco.common.web.Response;
+import cn.taroco.rbac.admin.model.dto.DbColumnInfo;
 import cn.taroco.rbac.admin.model.dto.DbTable;
 import cn.taroco.rbac.admin.common.config.GenCodeConfig;
 import cn.taroco.rbac.admin.model.dto.GenCodeConfigDTO;
@@ -11,9 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 import java.util.List;
 
 @RestController
@@ -27,9 +26,15 @@ public class GenCodeController extends BaseController {
     private GenCodeConfig genCodeConfig;
 
     @GetMapping("/tables")
-    public Response page(String tableName){
+    public Response tables(String tableName){
         List<DbTable> tableList = genCodeService.tableList(tableName);
         return Response.success(tableList);
+    }
+
+    @GetMapping("/columns")
+    public Response columns(String tableName) throws Exception{
+        List<DbColumnInfo> columnList = genCodeService.columnList(tableName);
+        return Response.success(columnList);
     }
 
     @GetMapping("/configinfo")

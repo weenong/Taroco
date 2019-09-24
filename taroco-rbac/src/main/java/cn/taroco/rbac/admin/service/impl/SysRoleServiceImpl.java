@@ -4,6 +4,7 @@ import cn.taroco.common.utils.Query;
 import cn.taroco.rbac.admin.mapper.SysRoleDeptMapper;
 import cn.taroco.rbac.admin.mapper.SysRoleMapper;
 import cn.taroco.rbac.admin.model.dto.RoleDTO;
+import cn.taroco.rbac.admin.model.entity.SysDept;
 import cn.taroco.rbac.admin.model.entity.SysRole;
 import cn.taroco.rbac.admin.model.entity.SysRoleDept;
 import cn.taroco.rbac.admin.service.SysRoleService;
@@ -44,10 +45,18 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         SysRole sysRole = new SysRole();
         BeanUtils.copyProperties(roleDto, sysRole);
         sysRoleMapper.insert(sysRole);
-        SysRoleDept roleDept = new SysRoleDept();
-        roleDept.setRoleId(sysRole.getRoleId());
-        roleDept.setDeptId(roleDto.getRoleDeptId());
-        sysRoleDeptMapper.insert(roleDept);
+        List<SysDept> deptList = roleDto.getDeptList();
+        if(null != deptList && !deptList.isEmpty()) {
+            for(int i=0;i<deptList.size();i++) {
+                SysDept dept = deptList.get(i);
+                if(null != dept) {
+                    SysRoleDept roleDept = new SysRoleDept();
+                    roleDept.setRoleId(sysRole.getRoleId());
+                    roleDept.setDeptId(dept.getDeptId());
+                    sysRoleDeptMapper.insert(roleDept);
+                }
+            }
+        }
         return true;
     }
 
@@ -84,10 +93,19 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         sysRoleMapper.updateById(sysRole);
 
         //维护角色部门关系
-        SysRoleDept roleDept = new SysRoleDept();
-        roleDept.setRoleId(sysRole.getRoleId());
-        roleDept.setDeptId(roleDto.getRoleDeptId());
-        sysRoleDeptMapper.insert(roleDept);
+        List<SysDept> deptList = roleDto.getDeptList();
+        if(null != deptList && !deptList.isEmpty()) {
+            for(int i=0;i<deptList.size();i++) {
+                SysDept dept = deptList.get(i);
+                if(null != dept) {
+                    SysRoleDept roleDept = new SysRoleDept();
+                    roleDept.setRoleId(sysRole.getRoleId());
+                    roleDept.setDeptId(dept.getDeptId());
+                    sysRoleDeptMapper.insert(roleDept);
+                }
+            }
+        }
+
         return true;
     }
 

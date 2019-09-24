@@ -14,7 +14,7 @@ zuul:
   ignored-services: '*'
   # 需要聚合的swagger服务
   swagger:
-    serviceIds: taroco-rbac-service,taroco-product-service
+    serviceIds: taroco-keycabinet-service,taroco-rbac-service
   # 限流配置
   ratelimit:
     key-prefix: taroco-gateway-ratelimit

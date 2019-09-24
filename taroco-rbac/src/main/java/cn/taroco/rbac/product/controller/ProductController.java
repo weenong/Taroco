@@ -42,7 +42,7 @@ public class ProductController {
      */
     @GetMapping("/page")
     public IPage dictPage(@RequestParam Map<String, Object> params) {
-        return productService.page(new Query<>(params), new QueryWrapper<>());
+        return productService.page(new Query<>(params,Product.class), new QueryWrapper<>());
     }
 
     /**

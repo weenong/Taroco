@@ -22,8 +22,10 @@
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />
 		<result column="del_flag" property="delFlag" />
-		<result column="dept_id" property="roleDeptId"/>
-		<result column="name" property="deptName"/>
+		<collection property="deptList" column="role_id" select="selectDeptListByRoleId">
+			<result column="dept_id" property="deptId"/>
+			<result column="name" property="name"/>
+		</collection>
 	</resultMap>
 
 	<select id="selectRolePage" resultMap="RoleDtoMap">
@@ -31,8 +33,6 @@
 			*
 		FROM
 			sys_role r
-		LEFT JOIN sys_role_dept rd ON rd.role_id = r.role_id
-		LEFT JOIN sys_dept d ON rd.dept_id = d.dept_id
 		WHERE r.del_flag = 0
         <if test="condition.roleName != null and condition.roleName != ''">
             and instr(r.role_name, #{condition.roleName}) > 0
@@ -50,5 +50,10 @@
 			r.del_flag
 		FROM sys_role r LEFT OUTER JOIN sys_role_dept rd ON rd.role_id = r.role_id
 		WHERE rd.dept_id = #{deptId}
+	</select>
+	<select id="selectDeptListByRoleId" resultType="cn.taroco.rbac.admin.model.entity.SysDept">
+		select d.dept_id,d.name
+		from sys_role_dept srd,sys_dept d
+		where d.dept_id = srd.dept_id and role_id = #{role_id}
 	</select>
 </mapper>

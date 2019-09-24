@@ -69,14 +69,12 @@ public class GenUtil {
     /**
      * 生成代码
      * @param tableInfo
-     * @param columns
      * @param zip
      */
-    public static void generatorCode(GenCodeConfigDTO buildConfigDTO, DbTable tableInfo, List<DbTableColumn> columns,
-                                     ZipOutputStream zip) {
+    public static void generatorCode(GenCodeConfigDTO buildConfigDTO, DbTable tableInfo, ZipOutputStream zip) {
         hasBigDecimal = false;
         //  构建表基本信息
-        buildTableInfo(buildConfigDTO,tableInfo,columns);
+        buildTableInfo(buildConfigDTO,tableInfo);
 
         // 生成代码
         gen(buildConfigDTO, tableInfo, zip);
@@ -204,16 +202,16 @@ public class GenUtil {
     /**
      * 构建表基本数据信息
      * @param tableConfig
-     * @param columns
      */
-    public static void  buildTableInfo(GenCodeConfigDTO configDTO, DbTable tableConfig,List<DbTableColumn> columns) {
+    public static void  buildTableInfo(GenCodeConfigDTO configDTO, DbTable tableConfig) {
         // 表名转换成Java类名
         String className = tableToJava(tableConfig.getTableName(), configDTO.getTablePrefix());
         tableConfig.setClassName(className);
         tableConfig.setLowerClassName(StringUtils.uncapitalize(className));
         List<DbColumnInfo> dbColumnInfoList = new ArrayList<>();
         // 列信息
-        for (DbTableColumn column : columns) {
+        List<DbColumnInfo> columns = configDTO.getTable().getColumnInfoList();
+        for (DbColumnInfo column : columns) {
             DbColumnInfo columnEntity = new DbColumnInfo();
             BeanUtils.copyProperties(column,columnEntity);
 
@@ -233,6 +231,17 @@ public class GenUtil {
             // 是否主键
             if ( tableConfig.getPk() == null && StringUtils.equalsIgnoreCase("PRI", column.getColumnKey()) ) {
                 tableConfig.setPk(columnEntity);
+            }
+
+            String[] casTable = column.getCasTable();
+            if(null != casTable){
+                String tableName = casTable[0];
+                DbColumnInfo casColumn = new DbColumnInfo();
+                casColumn.setAttrType(tableToJava(tableName, configDTO.getTablePrefix()));
+                temp = casColumn.getAttrType();
+                casColumn.setAttrName((new StringBuilder()).append(Character.toLowerCase(temp.charAt(0)))
+                        .append(temp.substring(1)).toString());
+                dbColumnInfoList.add(casColumn);
             }
 
             dbColumnInfoList.add(columnEntity);

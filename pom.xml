@@ -318,4 +318,15 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
     </dependencies>
+    <!-- 配置远程发布到私服，mvn deploy -->
+    <distributionManagement>
+        <repository>
+            <id>rdc-releases</id>
+            <url>https://repo.rdc.aliyun.com/repository/67438-release-sJ3GGv/</url>
+        </repository>
+        <snapshotRepository>
+            <id>rdc-snapshots</id>
+            <url>https://repo.rdc.aliyun.com/repository/67438-snapshot-mcCndX/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

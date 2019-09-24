@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class GenCodeConfigDTO {
-    private List<DbTable> tables;
+    private DbTable table;
     private String basePackageName;
     private String modelPackageName;
     private String controllerPackageName;

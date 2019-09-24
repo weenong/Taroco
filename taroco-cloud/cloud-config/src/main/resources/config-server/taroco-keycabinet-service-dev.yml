@@ -3,7 +3,7 @@
 # jpa配置 数据源配置
 spring:
   datasource:
-    url: ${base.mysql.url}/taroco-oauth2?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    url: ${base.mysql.url}/keycabinet?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
     username: root
     password: 123.com
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -20,7 +20,7 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
-  typeAliasesPackage: cn.taroco.rbac.admin.model.entity
+  typeAliasesPackage: cn.taroco.*.model.entity
   global-config:
     #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
     id-type: 0
@@ -40,29 +40,16 @@ taroco:
   # swagger2配置
   swagger:
     enabled: true
-    title: Taroco权限管理(RBAC)
-    description: Taroco权限管理(RBAC) RestFull Api
-    version: 1.0.1-SNAPSHOT
+    title: 钥匙柜管理系统(keycabinet)
+    description: 钥匙柜管理系统(keycabinet) RestFull Api
+    version: 2.0.1-SNAPSHOT
     license: Apache License, Version 2.0
     license-url: https://www.apache.org/licenses/LICENSE-2.0.html
-    terms-of-service-url: https://github.com/liuht777/Taroco
+    terms-of-service-url:
     contact:
-      name: liuht
-      url: https://github.com/liuht777
-      email: liuht777@qq.com
-    base-package: cn.taroco.rbac.admin.controller
+      name: lumiing
+      url:
+      email:
+    base-package: cn.taroco.keycabinet.controller
     base-path: /**
     exclude-path: /error
-
-gencode:
-  jdbc:
-    url: ${base.mysql.url}/keycabinet?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
-    name: root
-    password: 123.com
-  source:
-    basePackageName: cn.taroco.keycabinet
-    modelPackageName: model
-    controllerPackageName: controller
-    servicePackageName: service
-    daoPackageName: mapper
-    authorName: lumiing
